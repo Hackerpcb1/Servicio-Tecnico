@@ -733,20 +733,23 @@
     }
 
     async function updateRequestStatus(id, nuevoEstado) {
-      const { error } = await supabase
-        .from("solicitudes_servicio")
-        .update({ estado: nuevoEstado })
-        .eq("id", id);
+  const confirmed = confirm(`¿Seguro que deseas cambiar el estado a "${nuevoEstado}"?`);
+  if (!confirmed) return;
 
-      if (error) {
-        console.error("Error actualizando estado:", error);
-        alert("❌ No se pudo actualizar el estado: " + error.message);
-        return;
-      }
+  const { error } = await supabase
+    .from("solicitudes_servicio")
+    .update({ estado: nuevoEstado })
+    .eq("id", id);
 
-      await loadRequests();
-    }
+  if (error) {
+    console.error("Error actualizando estado:", error);
+    alert("❌ No se pudo actualizar el estado: " + error.message);
+    return;
+  }
 
+  alert(`✅ El servicio fue marcado como "${nuevoEstado}".`);
+  await loadRequests();
+}
     async function assignTechnician(id, tecnico) {
       const { error } = await supabase
         .from("solicitudes_servicio")
@@ -762,23 +765,24 @@
       await loadRequests();
     }
 
-    async function deleteRequest(id) {
-      const confirmed = confirm("¿Seguro que deseas eliminar este servicio?");
-      if (!confirmed) return;
+   async function deleteRequest(id) {
+  const confirmed = confirm("⚠️ Vas a eliminar este servicio. Esta acción no se puede deshacer.\n\n¿Deseas continuar?");
+  if (!confirmed) return;
 
-      const { error } = await supabase
-        .from("solicitudes_servicio")
-        .delete()
-        .eq("id", id);
+  const { error } = await supabase
+    .from("solicitudes_servicio")
+    .delete()
+    .eq("id", id);
 
-      if (error) {
-        console.error("Error eliminando servicio:", error);
-        alert("❌ No se pudo eliminar el servicio: " + error.message);
-        return;
-      }
+  if (error) {
+    console.error("Error eliminando servicio:", error);
+    alert("❌ No se pudo eliminar el servicio: " + error.message);
+    return;
+  }
 
-      await loadRequests();
-    }
+  alert("✅ El servicio fue eliminado correctamente.");
+  await loadRequests();
+}
 
     applyFiltersBtn.addEventListener("click", applyFilters);
 

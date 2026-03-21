@@ -216,26 +216,82 @@
       });
     }
 
-    function showDetailsModal(rating) {
-      const modal = document.getElementById('detailsModal');
-      const modalBody = document.getElementById('modalBody');
+   function showDetailsModal(rating) {
+  const modal = document.getElementById('detailsModal');
+  const modalBody = document.getElementById('modalBody');
 
-      modalBody.innerHTML = `
-        <div class="detail-item"><div class="detail-label">Nombre del Técnico:</div><div class="detail-value">${rating.technician || 'N/A'}</div></div>
-        <div class="detail-item"><div class="detail-label">Nombre del Maestro:</div><div class="detail-value">${rating.teacher || 'N/A'}</div></div>
-        <div class="detail-item"><div class="detail-label">Tiempo / Fecha:</div><div class="detail-value">${rating.time || 'N/A'}</div></div>
-        <div class="detail-item"><div class="detail-label">Servicio Realizado:</div><div class="detail-value">${rating.service || 'N/A'}</div></div>
-        <div class="detail-item"><div class="detail-label">Solución Implementada:</div><div class="detail-value">${rating.solution || 'N/A'}</div></div>
-        <div class="detail-item"><div class="detail-label">Observaciones:</div><div class="detail-value">${rating.observations || '-'}</div></div>
-        <div class="detail-item"><div class="detail-label">Estado del Servicio:</div><div class="detail-value">${rating.service_status || 'N/A'}</div></div>
-        <div class="detail-item"><div class="detail-label">Fecha del Servicio:</div><div class="detail-value">${rating.service_date || 'N/A'}</div></div>
-        <div class="detail-item"><div class="detail-label">Firma Digital:</div><div class="detail-value">${rating.signature ? `<img src="${rating.signature}" alt="Firma Digital" class="signature-img" />` : 'No disponible'}</div></div>
-        <div class="detail-item"><div class="detail-label">Calificación:</div><div class="detail-value">${'★'.repeat(rating.rating || 0) + '☆'.repeat(5 - (rating.rating || 0))}</div></div>
-        <div class="detail-item"><div class="detail-label">Fecha de Registro:</div><div class="detail-value">${rating.date ? new Date(rating.date).toLocaleString() : ''}</div></div>
-      `;
+  modalBody.innerHTML = `
+    <div class="detail-item">
+      <div class="detail-label">Nombre del Técnico:</div>
+      <div class="detail-value">${rating.technician || 'N/A'}</div>
+    </div>
 
-      modal.style.display = 'block';
-    }
+    <div class="detail-item">
+      <div class="detail-label">Nombre del Maestro:</div>
+      <div class="detail-value">${rating.teacher || 'N/A'}</div>
+    </div>
+
+    <div class="detail-item">
+      <div class="detail-label">Tiempo / Fecha:</div>
+      <div class="detail-value">${rating.time || 'N/A'}</div>
+    </div>
+
+    <div class="detail-item">
+      <div class="detail-label">Servicio Realizado:</div>
+      <div class="detail-value">${rating.service || 'N/A'}</div>
+    </div>
+
+    <div class="detail-item">
+      <div class="detail-label">Solución Implementada:</div>
+      <div class="detail-value">${rating.solution || 'N/A'}</div>
+    </div>
+
+    <div class="detail-item">
+      <div class="detail-label">Observaciones:</div>
+      <div class="detail-value">${rating.observations || '-'}</div>
+    </div>
+
+    <div class="detail-item">
+      <div class="detail-label">Estado del Servicio:</div>
+      <div class="detail-value">${rating.service_status || 'N/A'}</div>
+    </div>
+
+    <div class="detail-item">
+      <div class="detail-label">Fecha del Servicio:</div>
+      <div class="detail-value">${rating.service_date || 'N/A'}</div>
+    </div>
+
+    <div class="detail-item">
+      <div class="detail-label">Firma del Técnico:</div>
+      <div class="detail-value">
+        ${rating.technician_signature
+          ? `<img src="${rating.technician_signature}" alt="Firma del Técnico" class="signature-img" />`
+          : 'No disponible'}
+      </div>
+    </div>
+
+    <div class="detail-item">
+      <div class="detail-label">Firma del Maestro:</div>
+      <div class="detail-value">
+        ${rating.signature
+          ? `<img src="${rating.signature}" alt="Firma del Maestro" class="signature-img" />`
+          : 'No disponible'}
+      </div>
+    </div>
+
+    <div class="detail-item">
+      <div class="detail-label">Calificación:</div>
+      <div class="detail-value">${'★'.repeat(rating.rating || 0) + '☆'.repeat(5 - (rating.rating || 0))}</div>
+    </div>
+
+    <div class="detail-item">
+      <div class="detail-label">Fecha de Registro:</div>
+      <div class="detail-value">${rating.date ? new Date(rating.date).toLocaleString() : ''}</div>
+    </div>
+  `;
+
+  modal.style.display = 'block';
+}
 
     async function loadRatings() {
       const { data, error } = await supabase
